@@ -3,6 +3,7 @@ const {saveShortUrl} = require("../dao/shortUrl.js");
 const {generateNanoId} =require("../utils/helper.js");
 const createShortUrlWithoutUser = async(url)=>{
     const shortUrl = await generateNanoId(7);
+    if(!shortUrl) throw new Error("short URL not generated");
     await saveShortUrl(shortUrl,url);
     return shortUrl;
 }

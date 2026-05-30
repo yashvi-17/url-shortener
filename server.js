@@ -4,7 +4,7 @@ const express = require("express");
 const {nanoid} =require("nanoid");
 const URL = require("./models/shorturl.model.js");
 const {redirectFromShortUrl} = require("./controller/testRoutes.controller.js")
-
+const {errorHandler} = require("./utils/errorhandler.js");
 const testRoutes = require('./routes/testRoutes');
 
 const app = express();
@@ -73,6 +73,9 @@ app.use("/api/create",testRoutes)
 //     shortUrl: `http://localhost:5000/${shortCode}`
 //   });
 // });
+
+//error
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
