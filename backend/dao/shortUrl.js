@@ -18,7 +18,7 @@ const saveShortUrl  = async (shortUrl,longUrl,userId) =>{
     }
 }
 const getShortUrl = async(shortUrl)=>{
-    return await URL.findOneAndUpdate({short_Url:shortUrl},{$inc:{clicks:1}});
+    return await URL.findOneAndUpdate({short_Url:shortUrl},{$inc:{clicks:1}},{new: true});
 }
 
 module.exports = {saveShortUrl,getShortUrl};

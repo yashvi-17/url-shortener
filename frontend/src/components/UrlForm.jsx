@@ -4,24 +4,36 @@ const UrlForm = ({
   error,
   styles
 }) => {
-    const [url,setValue]=useState("https://www.google.com");
+    const [url,setUrl]=useState("https://www.google.com");
+    const [shortUrl,setShortUrl]=useState();
     const handleSubmit= async () => {
-        const data = await axios.post("/api/create",{url});
-        console.log(data);
+        const {data} = await axios.post("http://localhost:5000/api/create",{url});
+        setShortUrl(data.shortUrl);
     }
+    const [copyMessage, setCopyMessage] = useState("");
+    const [apiError, setApiError] = useState("");
+    const handleCopy = async () => {
+      await navigator.clipboard.writeText(shortUrl);
+      setCopyMessage("Copied!");
+    };
+    const handleReset = () => {
+      setUrl("");
+      setShortUrl("");
+      setCopyMessage("");
+    };
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <div style={styles.inputGroup}>
         <input
           type="url"
           value={url}
-          onInput={(event)=>setValue(event.target.value)}
-          onChange={(e) => setUrlInput(e.target.value)}
+          onInput={(event)=>setUrl(event.target.value)}
+          onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter your URL here..."
           style={styles.input}
           required
         />
-        <button type="submit" style={styles.button}>
+        <button onClick={handleSubmit} type="submit" style={styles.button}>
           Shorten URL
         </button>
       </div>
@@ -31,7 +43,47 @@ const UrlForm = ({
           {error}
         </div>
       )}
-    </form>
+
+      {apiError && (
+        <div style={styles.errorMessage}>
+          {apiError}
+        </div>
+      )}
+      {shortUrl && (
+        <div style={styles.resultCard}>
+          <h3 style={styles.resultTitle}>Your Shortened URL</h3>
+          <div style={styles.resultDisplay}>
+            <input
+              type="text"
+              value={shortUrl}
+              readOnly
+              style={styles.shortUrlInput}
+            />
+            <button 
+              onClick={handleCopy} 
+              style={styles.copyButton}
+            >
+              Copy
+            </button>
+          </div>
+
+          {/* Copy Success Message */}
+          {copyMessage && (
+            <div style={styles.copyMessage}>
+              {copyMessage}
+            </div>
+          )}
+
+          {/* Reset Button */}
+          <button 
+            onClick={handleReset} 
+            style={styles.resetButton}
+          >
+            Shorten Another URL
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 

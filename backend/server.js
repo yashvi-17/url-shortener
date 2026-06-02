@@ -6,14 +6,15 @@ const URL = require("./models/shorturl.model.js");
 const {redirectFromShortUrl} = require("./controller/testRoutes.controller.js")
 const {errorHandler} = require("./utils/errorhandler.js");
 const testRoutes = require('./routes/testRoutes');
+const cors = require("cors");
 
 const app = express();
 
+//allowing all the ports to connect here
+app.use(cors());
 // IMPORTANT: allows us to read JSON from request body
 app.use(express.json()); //body parser
 app.use(express.urlencoded({extended:true})); //for url encoded payloads [for forms data etc...]
-
-app.use('/api', testRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
 .then((conn) => console.log(`MongoDB connected: ${conn.connection.host}`))

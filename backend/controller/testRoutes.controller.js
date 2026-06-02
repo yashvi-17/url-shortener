@@ -5,12 +5,17 @@ const {getShortUrl} = require("../dao/shortUrl.js");
 const createShortUrl = wrapAsync(async(req,res,next)=>{
     const { url } =req.body;
     const shortUrl = await createShortUrlWithoutUser(url);
-    res.send(process.env.APP_URL + shortUrl);
+    res.json({shortUrl:`${process.env.APP_URL}/${shortUrl}`});
 })
 
 const redirectFromShortUrl = wrapAsync(async (req,res) =>{
     const {id} =req.params;
     const url=await getShortUrl(id);
-    res.redirect(url.full_Url);
+    if (!url) {
+        return res.status(404).json({
+            message: "Short URL not found"
+        });
+    }
+    return res.redirect(url.full_Url);
 })
 module.exports = {createShortUrl,redirectFromShortUrl};
