@@ -5,7 +5,8 @@ const {getShortUrl} = require("../dao/shortUrl.js");
 const createShortUrl = wrapAsync(async(req,res,next)=>{
     const { url } =req.body;
     const shortUrl = await createShortUrlWithoutUser(url);
-    res.json({shortUrl:`${process.env.APP_URL}/${shortUrl}`});
+    //res.status(403).send("Not Allowed");
+    res.status(200).json({shortUrl:`${process.env.APP_URL}/${shortUrl}`});
 })
 
 const redirectFromShortUrl = wrapAsync(async (req,res) =>{

@@ -1,26 +1,31 @@
 import React,{useState} from 'react';
 import axios from 'axios';
+import {createShortUrl} from '../api/shortUrl.api'
 const UrlForm = ({
   error,
   styles
 }) => {
     const [url,setUrl]=useState("https://www.google.com");
     const [shortUrl,setShortUrl]=useState();
-    const handleSubmit= async () => {
-        const {data} = await axios.post("http://localhost:5000/api/create",{url});
-        setShortUrl(data.shortUrl);
-    }
     const [copyMessage, setCopyMessage] = useState("");
     const [apiError, setApiError] = useState("");
+
+    const handleSubmit= async () => {
+      const shortUrl = await createShortUrl(url);
+      setShortUrl(shortUrl);
+    }
+
     const handleCopy = async () => {
       await navigator.clipboard.writeText(shortUrl);
       setCopyMessage("Copied!");
     };
+
     const handleReset = () => {
       setUrl("");
       setShortUrl("");
       setCopyMessage("");
     };
+
   return (
     <div>
       <div style={styles.inputGroup}>
@@ -33,7 +38,13 @@ const UrlForm = ({
           style={styles.input}
           required
         />
-        <button onClick={handleSubmit} type="submit" style={styles.button}>
+        <button 
+          type="button"
+          onClick={() => {
+            handleSubmit();
+          }}
+          style={styles.button}
+        >
           Shorten URL
         </button>
       </div>
