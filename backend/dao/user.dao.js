@@ -1,0 +1,18 @@
+const { default: user } = require("../models/user.model.js");
+const User = require("../models/user.model.js");
+
+const findUserByEmail = async (email) => {
+    return await User.findOne({email});
+}
+
+const findUserById = async (id) => {
+    return await User.findById(id);
+}
+
+const createUser = async (name, email,password) => {
+    const newUser = new User({name,email,password});
+    await newUser.save();
+    return newUser;
+}
+
+module.exports = {findUserByEmail,findUserById,createUser};

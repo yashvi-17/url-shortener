@@ -5,7 +5,8 @@ const {nanoid} =require("nanoid");
 const URL = require("./models/shorturl.model.js");
 const {redirectFromShortUrl} = require("./controller/testRoutes.controller.js")
 const {errorHandler} = require("./utils/errorhandler.js");
-const testRoutes = require('./routes/testRoutes');
+const testRoutes = require('./routes/testRoutes.js');
+const authRoutes = require('./routes/auth.routes.js');
 const cors = require("cors");
 
 const app = express();
@@ -20,6 +21,8 @@ mongoose.connect(process.env.MONGO_URI)
 .then((conn) => console.log(`MongoDB connected: ${conn.connection.host}`))
 .catch((err) => console.log(err));
 
+//authentication
+app.use("/api/auth",authRoutes);
 // test route
 //GET : Redirection
 app.get("/:id",redirectFromShortUrl);
