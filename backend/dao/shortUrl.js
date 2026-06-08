@@ -1,5 +1,6 @@
 const URL =require("../models/shorturl.model.js");
 const {ConflictError} = require("../utils/errorhandler.js");
+
 const saveShortUrl  = async (shortUrl,longUrl,userId) =>{
     try{
         const newUrl = new URL({
@@ -7,7 +8,7 @@ const saveShortUrl  = async (shortUrl,longUrl,userId) =>{
             short_Url:shortUrl,
         });
         if(userId){
-            newUrl.user_id=userId;
+            newUrl.user=userId;
         }
         await newUrl.save();
     }catch(err){
@@ -21,6 +22,10 @@ const getShortUrl = async(shortUrl)=>{
     return await URL.findOneAndUpdate({short_Url:shortUrl},{$inc:{clicks:1}},{new: true});
 }
 
-module.exports = {saveShortUrl,getShortUrl};
+const getCustomUrl = async (slug) => {
+    return await URL.findOne({short_url:slug});
+}
+
+module.exports = {saveShortUrl,getShortUrl,getCustomUrl};
 //if we ever want to change mongodb we change it here
 //rest code stays intact due to modularity

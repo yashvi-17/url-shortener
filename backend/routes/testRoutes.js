@@ -1,5 +1,6 @@
 const express = require('express');
 const {createShortUrl} =require("../controller/testRoutes.controller.js");
+const { createShortUrlWithUser } = require('../services/shorturl.service.js');
 const router = express.Router();
 
 router.post("/",createShortUrl);  //we already imported testRoutes and called in server.js so we use "/" 

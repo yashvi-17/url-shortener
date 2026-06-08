@@ -17,7 +17,7 @@ const registerUser = async (name,email,password) => {
     const user=await findUserByEmail(email);
     if(!user || user.password!==password) throw new Error("Invalid Credentials!"); //we want to secure the info of which emails exist and which do not by not throwing 2 different errors for wrong email and password
     const token = signToken({id: user._id});
-    return token;
+    return {token,user};
 }
 
  module.exports = {registerUser,loginUser};

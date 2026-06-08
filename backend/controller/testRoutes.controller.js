@@ -1,10 +1,16 @@
 const urlSchema = require("../models/shorturl.model.js");
-const {createShortUrlWithoutUser} =require("../services/shorturl.service.js");
+const {createShortUrlWithUser,createShortUrlWithoutUser} =require("../services/shorturl.service.js");
 const wrapAsync = require("../utils/trycatchWrapper.js"); //now we can use this for all the functions in this file instead of try and catch again and again
 const {getShortUrl} = require("../dao/shortUrl.js");
+
 const createShortUrl = wrapAsync(async(req,res,next)=>{
-    const { url } =req.body;
-    const shortUrl = await createShortUrlWithoutUser(url);
+    const data =req.body;
+    let shortUrl;
+    if(req.user){
+        shortUrl = await createShortUrlWithUser(data.url,req.user._id,data.slug);
+    }else{
+        shortUrl = await createShortUrlWithoutUser(data.url);
+    }
     //res.status(403).send("Not Allowed");
     res.status(200).json({shortUrl:`${process.env.APP_URL}/${shortUrl}`});
 })
@@ -19,4 +25,11 @@ const redirectFromShortUrl = wrapAsync(async (req,res) =>{
     }
     return res.redirect(url.full_Url);
 })
-module.exports = {createShortUrl,redirectFromShortUrl};
+
+const createCustomShortUrl = wrapAsync(async (req,res) =>{
+    const {url,slug}=req.boday;
+    const shortUrl=await createShortUrlWithoutUser(url,slug);
+    res.status(200).json({shortUrl: process.env.APP_url + shortUrl});
+})
+
+module.exports = {createShortUrl,redirectFromShortUrl,createCustomShortUrl};

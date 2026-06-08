@@ -7,7 +7,9 @@ const {redirectFromShortUrl} = require("./controller/testRoutes.controller.js")
 const {errorHandler} = require("./utils/errorhandler.js");
 const testRoutes = require('./routes/testRoutes.js');
 const authRoutes = require('./routes/auth.routes.js');
+const {attachUser} = require("./utils/attachUser.js");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -20,6 +22,10 @@ app.use(express.urlencoded({extended:true})); //for url encoded payloads [for fo
 mongoose.connect(process.env.MONGO_URI)
 .then((conn) => console.log(`MongoDB connected: ${conn.connection.host}`))
 .catch((err) => console.log(err));
+
+app.use(cookieParser());
+
+app.use(attachUser);
 
 //authentication
 app.use("/api/auth",authRoutes);
