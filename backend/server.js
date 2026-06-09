@@ -14,7 +14,10 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 //allowing all the ports to connect here
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true //allows cookies to be sent
+}));
 // IMPORTANT: allows us to read JSON from request body
 app.use(express.json()); //body parser
 app.use(express.urlencoded({extended:true})); //for url encoded payloads [for forms data etc...]

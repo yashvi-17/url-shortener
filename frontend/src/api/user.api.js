@@ -1,0 +1,17 @@
+import { useDeferredValue } from "react";
+import axiosInstance from "../utils/axiosinstance";
+
+export const loginUser = async (password,email) => {
+    const {data} = await axiosInstance.post("api/auth/login",{password,email});
+    return data;
+}
+
+export const RegisterUser = async (name,password,email) => {
+    const {data} = await axiosInstance.post("api/auth/login",{name,password,email});
+    return data;
+}
+
+export const logoutUser = async () => {
+    const {data} = await axiosInstance.get("api/auth/logout");
+    return data;
+}

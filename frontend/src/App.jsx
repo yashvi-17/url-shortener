@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import UrlForm from "./components/UrlForm";
 import Homepage from "./pages/homepage";
+import LoginForm from "./components/LoginForm";
+import AuthPage from './pages/AuthPage';
+
 const App = () => {
   const [urlInput, setUrlInput] = useState('');
   const [shortUrl, setShortUrl] = useState('');
@@ -168,8 +171,17 @@ const App = () => {
     },
   };
 
+  const handleLoginSuccess = (data) => {
+    console.log("Login successful:", data);
+    // later you can store token here
+  };
+  
   return (
   <>
+    <AuthPage
+      error={error}
+      styles={styles}
+/>
     <Homepage
       error={error}
       styles={styles}

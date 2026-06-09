@@ -23,7 +23,7 @@ const getShortUrl = async(shortUrl)=>{
 }
 
 const getCustomUrl = async (slug) => {
-    return await URL.findOne({short_url:slug});
+    return await URL.findOne({short_Url:slug});
 }
 
 module.exports = {saveShortUrl,getShortUrl,getCustomUrl};
