@@ -1,4 +1,5 @@
 const {verifyToken} = require("../utils/jwt.js")
+const {findUserById} = require("../dao/user.dao.js")
 
 const authMiddleware = async (req,res,next) => {
     const token= req.cookies.accessToken;
@@ -13,3 +14,5 @@ const authMiddleware = async (req,res,next) => {
         return res.status(401).json({message:"Unauthorized"});
     }
 }
+
+module.exports = {authMiddleware}

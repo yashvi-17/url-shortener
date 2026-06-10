@@ -25,4 +25,13 @@ const login = wrapAsync( async (req,res) => {
     });
 })
 
-module.exports = {register,login};
+const logout = wrapAsync(async (req,res) => {
+    res.clearCookie("accessToken",cookieOptions);
+    res.status(200).json({message:"logout success"});
+});
+
+const get_current_user = wrapAsync( async (req,res) => {
+    res.status(200).json({user:req.user});
+})
+
+module.exports = {register,login,logout,get_current_user};

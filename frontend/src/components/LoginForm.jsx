@@ -15,6 +15,7 @@ const LoginForm = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const navigate = useNavigate();
     const auth = useSelector((state) => state.auth); //state object
     const dispatch = useDispatch();
     console.log(auth);
@@ -28,7 +29,7 @@ const LoginForm = ({
         try {
             const data = await loginUser(password,email);
             dispatch(login(data.user)) //dispatch required whenever accessing functions from slice [wrapper of login]
-
+            navigate({to:"/dashboard"});
             if (onLoginSuccess) {
                 onLoginSuccess(data);
             }
