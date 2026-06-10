@@ -1,51 +1,67 @@
-import React,{useState} from 'react';
-import axios from 'axios';
-import {createShortUrl} from '../api/shortUrl.api'
+import React, { useState } from 'react';
+import { createShortUrl } from '../api/shortUrl.api'
+
 const UrlForm = ({
   error,
   styles
 }) => {
-    const [url,setUrl]=useState("https://www.google.com");
-    const [shortUrl,setShortUrl]=useState();
-    const [copyMessage, setCopyMessage] = useState("");
-    const [apiError, setApiError] = useState("");
+  const [url, setUrl] = useState("https://www.google.com");
+  const [shortUrl, setShortUrl] = useState("");
+  const [copyMessage, setCopyMessage] = useState("");
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit= async () => {
-      const shortUrl = await createShortUrl(url);
-      setShortUrl(shortUrl);
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setApiError("");
+    setCopyMessage("");
 
-    const handleCopy = async () => {
-      await navigator.clipboard.writeText(shortUrl);
-      setCopyMessage("Copied!");
-    };
-
-    const handleReset = () => {
-      setUrl("");
+    try {
+      const result = await createShortUrl(url);
+      setShortUrl(result);
+    } catch (err) {
+      setApiError(err.message || "Error creating short URL");
       setShortUrl("");
-      setCopyMessage("");
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shortUrl);
+    setCopyMessage("Copied to clipboard!");
+    setTimeout(() => setCopyMessage(""), 2000);
+  };
+
+  const handleReset = () => {
+    setUrl("https://www.google.com");
+    setShortUrl("");
+    setCopyMessage("");
+    setApiError("");
+  };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <div style={styles.inputGroup}>
         <input
           type="url"
           value={url}
-          onInput={(event)=>setUrl(event.target.value)}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter your URL here..."
           style={styles.input}
           required
         />
         <button 
-          type="button"
-          onClick={() => {
-            handleSubmit();
+          type="submit"
+          style={{
+            ...styles.button,
+            opacity: loading ? 0.7 : 1,
+            cursor: loading ? 'not-allowed' : 'pointer',
           }}
-          style={styles.button}
+          disabled={loading}
         >
-          Shorten URL
+          {loading ? "Creating..." : "Shorten URL"}
         </button>
       </div>
 
@@ -60,6 +76,7 @@ const UrlForm = ({
           {apiError}
         </div>
       )}
+
       {shortUrl && (
         <div style={styles.resultCard}>
           <h3 style={styles.resultTitle}>Your Shortened URL</h3>
@@ -71,6 +88,7 @@ const UrlForm = ({
               style={styles.shortUrlInput}
             />
             <button 
+              type="button"
               onClick={handleCopy} 
               style={styles.copyButton}
             >
@@ -78,15 +96,14 @@ const UrlForm = ({
             </button>
           </div>
 
-          {/* Copy Success Message */}
           {copyMessage && (
             <div style={styles.copyMessage}>
               {copyMessage}
             </div>
           )}
 
-          {/* Reset Button */}
           <button 
+            type="button"
             onClick={handleReset} 
             style={styles.resetButton}
           >
@@ -94,7 +111,7 @@ const UrlForm = ({
           </button>
         </div>
       )}
-    </div>
+    </form>
   );
 };
 

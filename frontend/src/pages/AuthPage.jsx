@@ -1,38 +1,35 @@
 import React, { useState } from "react";
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
+import {styles } from "../styles";
 
-const AuthPage = ({
-  error,
-  styles
-}) => {
-    const [login, setLogin] = useState(true);
-    return (
-    
+const AuthPage = () => {
+  const [login, setLogin] = useState(true);
+  return (
     <div style={styles.container}>
-      {login?(
-      <div style={styles.card}>
-        <h1 style={styles.title}>Login</h1>
-        <p style={styles.subtitle}></p>
-
-        <LoginForm onSwitchToRegister={() => setLogin(false)}
-            error={error}
-            styles={styles}
-        />
-      </div>
-      ):(
+      {login ? (
         <div style={styles.card}>
-            <h1 style={styles.title}>Register</h1>
-            <p style={styles.subtitle}></p>
+          <h1 style={styles.title}>Login</h1>
 
-            <RegisterForm onSwitchToLogin={() => setLogin(true)}
-                error={error}
-                styles={styles}
-            />
+          <LoginForm
+            error=""
+            styles={styles}
+            onSwitchToRegister={() => setLogin(false)}
+          />
+        </div>
+      ) : (
+        <div style={styles.card}>
+          <h1 style={styles.title}>Register</h1>
+
+          <RegisterForm
+            error=""
+            styles={styles}
+            onSwitchToLogin={() => setLogin(true)}
+          />
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default AuthPage;

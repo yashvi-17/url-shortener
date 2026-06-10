@@ -1,41 +1,4 @@
-import React, { useState } from 'react';
-import UrlForm from "./components/UrlForm";
-import Homepage from "./pages/homepage";
-import LoginForm from "./components/LoginForm";
-import AuthPage from './pages/AuthPage';
-
-const App = () => {
-  const [urlInput, setUrlInput] = useState('');
-  const [shortUrl, setShortUrl] = useState('');
-  const [showResult, setShowResult] = useState(false);
-  const [error, setError] = useState('');
-  const [copyMessage, setCopyMessage] = useState('');
-
-  const generateShortUrl = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let shortCode = '';
-    for (let i = 0; i < 6; i++) {
-      shortCode += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return `https://short.url/${shortCode}`;
-  };
-
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(shortUrl);
-    setCopyMessage('Copied to clipboard!');
-    setTimeout(() => setCopyMessage(''), 2000);
-  };
-
-  const handleReset = () => {
-    setUrlInput('');
-    setShortUrl('');
-    setShowResult(false);
-    setError('');
-    setCopyMessage('');
-  };
-
-  const styles = {
+export const styles = {
     container: {
       width: '100%',
       minHeight: '100vh',
@@ -94,6 +57,17 @@ const App = () => {
       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       whiteSpace: 'nowrap',
     },
+    logoutButton: {
+      padding: '10px 20px',
+      background: '#e74c3c',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+    },
     errorMessage: {
       color: '#e74c3c',
       fontSize: '0.9rem',
@@ -112,6 +86,7 @@ const App = () => {
       borderRadius: '8px',
       padding: '20px',
       marginBottom: '20px',
+      marginTop: '20px',
     },
     resultTitle: {
       color: '#333',
@@ -169,55 +144,21 @@ const App = () => {
       cursor: 'pointer',
       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     },
+    header: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '20px',
+      paddingBottom: '20px',
+      borderBottom: '2px solid #f0f0f0',
+    },
+    userInfo: {
+      textAlign: 'right',
+      color: '#333',
+    },
+    userName: {
+      fontSize: '1rem',
+      fontWeight: '600',
+      marginBottom: '5px',
+    },
   };
-
-  const handleLoginSuccess = (data) => {
-    console.log("Login successful:", data);
-    // later you can store token here
-  };
-  
-  return (
-  <>
-    <AuthPage
-      error={error}
-      styles={styles}
-/>
-    <Homepage
-      error={error}
-      styles={styles}
-    />
-
-    {showResult && (
-      <div style={styles.resultSection}>
-        <div style={styles.resultCard}>
-          <h3 style={styles.resultTitle}>Your Shortened URL</h3>
-
-          <div style={styles.resultDisplay}>
-            <input
-              type="text"
-              value={shortUrl}
-              readOnly
-              style={styles.shortUrlInput}
-            />
-            <button onClick={handleCopy} style={styles.copyButton}>
-              Copy
-            </button>
-          </div>
-
-          {copyMessage && (
-            <div style={styles.copyMessage}>
-              {copyMessage}
-            </div>
-          )}
-        </div>
-
-        <button onClick={handleReset} style={styles.resetButton}>
-          Shorten Another URL
-        </button>
-      </div>
-    )}
-  </>
-);
-};
-
-export default App;
