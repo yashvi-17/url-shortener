@@ -4,11 +4,11 @@ const {registerUser,loginUser} =require("../services/auth.service.js");
 
 const register = wrapAsync( async (req,res) => {
     const {name,email,password} = req.body;
-    const token =  await registerUser(name,email,password);
+    const {token,user} =  await registerUser(name,email,password);
     req.user=user;
     res.cookie("accessToken",token,cookieOptions);
     res.status(200).json({
-        message: "Login Success",
+        message: "Register Success",
         token
     });
 })
@@ -20,6 +20,7 @@ const login = wrapAsync( async (req,res) => {
     res.cookie("accessToken",token,cookieOptions);
     res.status(200).json({
         message: "Login Success",
+        user: user,
         token
     });
 })

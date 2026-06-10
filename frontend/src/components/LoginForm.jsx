@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { loginUser } from "../api/user.api";
+import {useDispatch, useSelector} from "react-redux";
+import { login } from "../store/slice/authSlice";
+import { useNavigate } from "@tanstack/react-router";
 
 const LoginForm = ({
     state,
@@ -12,14 +15,19 @@ const LoginForm = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const auth = useSelector((state) => state.auth); //state object
+    const dispatch = useDispatch();
+    console.log(auth);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+ 
         setLoading(true);
         setError("");
 
         try {
             const data = await loginUser(password,email);
+            dispatch(login(data.user)) //dispatch required whenever accessing functions from slice [wrapper of login]
 
             if (onLoginSuccess) {
                 onLoginSuccess(data);
