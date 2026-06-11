@@ -7,6 +7,7 @@ const {redirectFromShortUrl} = require("./controller/testRoutes.controller.js")
 const {errorHandler} = require("./utils/errorhandler.js");
 const testRoutes = require('./routes/testRoutes.js');
 const authRoutes = require('./routes/auth.routes.js');
+const userRoutes = require("./routes/user.route.js");
 const {attachUser} = require("./utils/attachUser.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -18,6 +19,7 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true //allows cookies to be sent
 }));
+
 // IMPORTANT: allows us to read JSON from request body
 app.use(express.json()); //body parser
 app.use(express.urlencoded({extended:true})); //for url encoded payloads [for forms data etc...]
@@ -30,62 +32,19 @@ app.use(cookieParser());
 
 app.use(attachUser);
 
+//for showing all the previously made urls
+app.use("/api/user",userRoutes);
+
 //authentication
 app.use("/api/auth",authRoutes);
+
 // test route
 //GET : Redirection
 app.get("/:id",redirectFromShortUrl);
-// app.get("/", (req, res) => {
-//   res.json({
-//     message: "Server running"
-//   });
-// });
-// app.get('/test', (req, res) => {
-//     res.json({
-//         success: true,
-//         message: "API working"
-//     });
-// });
-// app.get('/user/:id', (req, res) => {
-//     res.json({
-//         userId: req.params.id
-//     });
-// });
-// app.get('/search', (req, res) => {
-//     res.json({
-//         name: req.query.name
-//     });
-// });
 
 //POST: create short url
 // URL shortener route (we are building this)
 app.use("/api/create",testRoutes)
-// app.post("/shorten", (req, res) => {
-//   const { longUrl } = req.body;
-
-//   if (!longUrl) {
-//     return res.status(400).json({
-//       error: "longUrl is required"
-//     });
-//   }
-  
-// app.post('/shorten', (req, res) => {
-//     const { url } = req.body;
-
-//     const shortId = Math.random().toString(36).substring(2, 8);
-
-//     res.json({
-//         shortId: shortId
-//     });
-// });
-//   // fake short code for now
-//   const shortCode = Math.random().toString(36).substring(2, 8);
-
-//   res.json({
-//     longUrl,
-//     shortUrl: `http://localhost:5000/${shortCode}`
-//   });
-// });
 
 //error
 app.use(errorHandler);

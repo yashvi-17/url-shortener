@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { createShortUrl } from '../api/shortUrl.api'
+import { useSelector } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 
 const UrlForm = ({
   error,
@@ -10,6 +12,10 @@ const UrlForm = ({
   const [copyMessage, setCopyMessage] = useState("");
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [customSlug, setCustomSlug] = useState("");
+
+  const {isAuthenticated} = useSelector((state) => state.auth);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +24,9 @@ const UrlForm = ({
     setCopyMessage("");
 
     try {
-      const result = await createShortUrl(url);
+      const result = await createShortUrl(url,customSlug);
       setShortUrl(result);
+      queryClient.invalidateQueries({querykey: ["userUrls"]});
     } catch (err) {
       setApiError(err.message || "Error creating short URL");
       setShortUrl("");
@@ -76,6 +83,37 @@ const UrlForm = ({
           {apiError}
         </div>
       )}
+
+      {/*only logged in users get the option for custom slug*/}
+      {isAuthenticated && ( 
+        <>
+          <p
+            style={{
+              color: "#666",
+              fontSize: "0.9rem",
+              marginBottom: "8px",
+            }}
+          >
+            Custom URL (optional)
+          </p>
+
+          <input
+            type="text"
+            placeholder="Enter Custom Slug"
+            value={customSlug}
+            onChange={(e) => setCustomSlug(e.target.value)}
+            style={{
+              ...styles.input,
+              width: "385px",
+              boxSizing: "border-box",
+            }}
+          />
+        </>
+      )}
+      {/*{ #later in api request
+            longUrl: urlInput,
+            customSlug
+          }*/}
 
       {shortUrl && (
         <div style={styles.resultCard}>

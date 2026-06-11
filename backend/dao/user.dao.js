@@ -1,4 +1,5 @@
 const User = require("../models/user.model.js");
+const URL = require("../models/shorturl.model.js");
 
 const findUserByEmail = async (email) => {
     return await User.findOne({email});
@@ -18,4 +19,8 @@ const createUser = async (name, email,password) => {
     return newUser;
 }
 
-module.exports = {findUserByEmail,findUserById,createUser,findUserByEmailByPassword};
+const getAllUserUrlsDao = async (id) => {
+    return await URL.find({user:id});
+}
+
+module.exports = {findUserByEmail,findUserById,createUser,findUserByEmailByPassword,getAllUserUrlsDao};

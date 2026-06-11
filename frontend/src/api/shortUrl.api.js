@@ -1,6 +1,6 @@
 import axiosInstance from "../utils/axiosinstance";
 
-export const createShortUrl = async (url) =>{
-    const {data} = await axiosInstance.post("http://localhost:5000/api/create",{url});
+export const createShortUrl = async (url,slug) =>{
+    const {data} = await axiosInstance.post("http://localhost:5000/api/create",{url,slug});
     return data.shortUrl;
 } 

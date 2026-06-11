@@ -18,7 +18,7 @@ const shortUrlSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", //could be that user exist but no url so required is not true
+        ref: "User", //could be that user exist but no url so required is not true. Also used instead of links in the user schema.
     }
 });
 
