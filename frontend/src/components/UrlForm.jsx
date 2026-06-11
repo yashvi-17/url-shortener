@@ -104,13 +104,13 @@ const UrlForm = ({
             onChange={(e) => setCustomSlug(e.target.value)}
             style={{
               ...styles.input,
-              width: "385px",
+              width: "1185px",
               boxSizing: "border-box",
             }}
           />
         </>
       )}
-      {/*{ #later in api request
+      {/*{ later in api request
             longUrl: urlInput,
             customSlug
           }*/}

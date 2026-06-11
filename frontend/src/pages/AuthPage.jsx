@@ -6,9 +6,9 @@ import {styles } from "../styles";
 const AuthPage = () => {
   const [login, setLogin] = useState(true);
   return (
-    <div style={styles.container}>
+    <div style={styles.authContainer}>
       {login ? (
-        <div style={styles.card}>
+        <div style={styles.authCard}>
           <h1 style={styles.title}>Login</h1>
 
           <LoginForm
@@ -18,7 +18,7 @@ const AuthPage = () => {
           />
         </div>
       ) : (
-        <div style={styles.card}>
+        <div style={styles.authCard}>
           <h1 style={styles.title}>Register</h1>
 
           <RegisterForm

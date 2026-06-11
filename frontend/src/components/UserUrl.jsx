@@ -16,14 +16,21 @@ const UserUrl = () => {
     });
     console.log("api data",urls);
     const [copiedId, setCopiedId] = useState(null);
+    const [copyMessage,setCopyMessage] = useState("");
 
-    const handleCopy = (id, shortUrl) => {
-        navigator.clipboard.writeText(shortUrl);
-        setCopiedId(id);
+    const handleCopy = async (id, shortUrl) => {
+        try {
+            await navigator.clipboard.writeText(shortUrl);
 
-        setTimeout(() => {
-            setCopiedId(null);
-        }, 2000);
+            setCopiedId(id);
+
+            setTimeout(() => {
+                setCopiedId(null);
+            }, 1500);
+
+        } catch (err) {
+            console.log("Copy failed");
+        }
     };
 
     if (isLoading) {

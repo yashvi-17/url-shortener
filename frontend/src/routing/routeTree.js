@@ -9,11 +9,13 @@ export const rootRoute = createRootRoute({
 import { homepageRoute } from "./homepage"
 import { authRoute } from "./auth.route"
 import { dashboardRoute } from "./dashboard"
+import { analyticsRoute } from "./analytics.route";
 
 const routeTree = rootRoute.addChildren([
     homepageRoute,
     authRoute,
-    dashboardRoute
+    dashboardRoute,
+    analyticsRoute
 ])
 
 export default routeTree;

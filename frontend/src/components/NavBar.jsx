@@ -1,38 +1,60 @@
 import React from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { logoutUser } from "../api/user.api";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/slice/authSlice";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Navbar = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  const handleLogout = async () => {
+    console.log("logout clicked");
+
+    try {
+      await logoutUser();
+
+      dispatch(logout());
+      queryClient.clear();
+
+      navigate({ to: "/auth" });
+    } catch (err) {
+      console.log("Logout failed:", err.message);
+    }
+  };
+
   return (
     <nav style={styles.navbar}>
-      {/* Left */}
-      <div style={styles.brand}>
-        🔗 URL Shortener
-      </div>
+      {/* LEFT */}
+      <div style={styles.brand}>🔗 URL Shortener</div>
 
-      {/* Center */}
+      {/* CENTER */}
       <div style={styles.centerLinks}>
-        <Link to="/" style={styles.link}>
-          Home
-        </Link> {/*we use links instead of a tags as they refresh the page and this saves us from constant reloads*/}
-
-        <Link to="/dashboard" style={styles.link}>
-          Dashboard
-        </Link>
-
-        <Link to="/analytics" style={styles.link}>
-          Analytics
-        </Link>
+        <Link to="/" style={styles.link}>Home</Link>
+        <Link to="/dashboard" style={styles.link}>Dashboard</Link>
+        <Link to="/analytics" style={styles.link}>Analytics</Link>
       </div>
 
-      {/* Right */}
+      {/* RIGHT */}
       <div style={styles.authSection}>
-        <Link to="/auth" style={styles.loginBtn}>
-          Login
-        </Link>
-
-        <Link to="/auth" style={styles.signupBtn}>
-          Sign Up
-        </Link>
+        {!isAuthenticated ? (
+          <>
+            <Link to="/auth" style={styles.loginBtn}>Login</Link>
+            <Link to="/auth" style={styles.signupBtn}>Sign Up</Link>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
+            style={styles.logoutButton}
+            type="button"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );
@@ -49,7 +71,7 @@ const styles = {
     boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
     position: "sticky",
     top: 0,
-    zIndex: 100,
+    zIndex: 9999,
   },
 
   brand: {
@@ -94,6 +116,16 @@ const styles = {
     color: "white",
     padding: "10px 18px",
     borderRadius: "8px",
+    fontWeight: "600",
+  },
+
+  logoutButton: {
+    padding: "10px 18px",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+    background: "#e74c3c",
+    color: "white",
     fontWeight: "600",
   },
 };

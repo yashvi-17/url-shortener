@@ -161,4 +161,22 @@ export const styles = {
       fontWeight: '600',
       marginBottom: '5px',
     },
+    authContainer: {
+    width: "100%",
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+  },
+
+  authCard: {
+    background: "white",
+    borderRadius: "12px",
+    padding: "40px",
+    width: "100%",
+    maxWidth: "420px",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+  },
   };
