@@ -16,7 +16,6 @@ const UserUrl = () => {
     });
     console.log("api data",urls);
     const [copiedId, setCopiedId] = useState(null);
-    const [copyMessage,setCopyMessage] = useState("");
 
     const handleCopy = async (id, shortUrl) => {
         try {
@@ -50,9 +49,11 @@ const UserUrl = () => {
     }
 
     const styles = {
-        container: { marginTop: "30px" },
-        width: "100%",
-        overflowX: "auto",
+        container: { 
+            marginTop: "30px",
+            width: "100%",
+            overflowX: "auto",
+        },
         title: {
             fontSize: "1.8rem",
             fontWeight: "600",
@@ -61,12 +62,18 @@ const UserUrl = () => {
         },
         table: {
             width: "100%",
-            minWidth: "900px",
             borderCollapse: "collapse",
+            marginTop: "30px",
+            overflowX: "auto",
             background: "white",
             borderRadius: "12px",
             overflow: "hidden",
             boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+        },
+        tableContainer: {
+            maxHeight: "500px",
+            overflowY: "auto",
+            marginTop: "30px",
         },
         th: {
             background: "#667eea",
@@ -105,67 +112,68 @@ const UserUrl = () => {
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>My URLs</h2>
-
-            <table style={styles.table}>
-                <thead>
-                    <tr>
-                        <th style={styles.th}>Original URL</th>
-                        <th style={styles.th}>Short URL</th>
-                        <th style={styles.th}>Clicks</th>
-                        <th style={styles.th}>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {urls.urls.reverse().map((url) => (
-                        <tr key={url._id}>
-                            <td style={styles.td}>{url.full_Url}</td>
-
-                            <td
-                                style={{
-                                    ...styles.td,
-                                    display: "flex",
-                                    gap: "10px",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <span style={styles.short_Url}>
-                                    {`http://localhost:5000/${url.short_Url}`}
-                                </span>
-                            </td>
-
-                            <td style={styles.td}>{url.clicks}</td>
-
-                            <td
-                                style={{
-                                    ...styles.td,
-                                    display: "flex",
-                                    gap: "10px",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <button
-                                    style={styles.copyBtn}
-                                    onClick={() =>
-                                        handleCopy(url._id, `http://localhost:5000/${url.short_Url}`)
-                                    }
-                                >
-                                    {copiedId === url._id ? "Copied!" : "Copy"}
-                                </button>
-
-                                <a
-                                    href={`http://localhost:5000/${url.short_Url}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    style={styles.visitBtn}
-                                >
-                                    Visit
-                                </a>
-                            </td>
+            <div style={styles.tableContainer}>
+                <table style={styles.table}>
+                    <thead>
+                        <tr>
+                            <th style={styles.th}>Original URL</th>
+                            <th style={styles.th}>Short URL</th>
+                            <th style={styles.th}>Clicks</th>
+                            <th style={styles.th}>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {[...urls.urls].reverse().map((url) => (
+                            <tr key={url._id}>
+                                <td style={styles.td}>{url.full_Url}</td>
+
+                                <td
+                                    style={{
+                                        ...styles.td,
+                                        display: "flex",
+                                        gap: "10px",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <span style={styles.short_Url}>
+                                        {`http://localhost:5000/${url.short_Url}`}
+                                    </span>
+                                </td>
+
+                                <td style={styles.td}>{url.clicks}</td>
+
+                                <td
+                                    style={{
+                                        ...styles.td,
+                                        display: "flex",
+                                        gap: "10px",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <button
+                                        style={styles.copyBtn}
+                                        onClick={() =>
+                                            handleCopy(url._id, `http://localhost:5000/${url.short_Url}`)
+                                        }
+                                    >
+                                        {copiedId === url._id ? "Copied!" : "Copy"}
+                                    </button>
+
+                                    <a
+                                        href={`http://localhost:5000/${url.short_Url}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        style={styles.visitBtn}
+                                    >
+                                        Visit
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

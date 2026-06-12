@@ -104,7 +104,7 @@ const UrlForm = ({
             onChange={(e) => setCustomSlug(e.target.value)}
             style={{
               ...styles.input,
-              width: "1185px",
+              width: "100%",
               boxSizing: "border-box",
             }}
           />
