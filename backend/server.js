@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+//backend deployment
 app.use(cors({
   origin: [
     "http://localhost:5173",
@@ -59,6 +60,6 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(process.env.PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
