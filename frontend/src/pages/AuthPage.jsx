@@ -1,33 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
-import {styles } from "../styles";
+import { styles } from "../styles";
+import { useLocation } from "@tanstack/react-router";
 
 const AuthPage = () => {
-  const [login, setLogin] = useState(true);
+  const location = useLocation();
+
+  const isLogin = location.pathname === "/login";
+  const isRegister = location.pathname === "/register";
+
   return (
     <div style={styles.authContainer}>
-      {login ? (
-        <div style={styles.authCard}>
-          <h1 style={styles.title}>Login</h1>
+      <div style={styles.authCard}>
+        <h1 style={styles.title}>
+          {isLogin ? "Login" : "Register"}
+        </h1>
 
-          <LoginForm
-            error=""
-            styles={styles}
-            onSwitchToRegister={() => setLogin(false)}
-          />
-        </div>
-      ) : (
-        <div style={styles.authCard}>
-          <h1 style={styles.title}>Register</h1>
-
-          <RegisterForm
-            error=""
-            styles={styles}
-            onSwitchToLogin={() => setLogin(true)}
-          />
-        </div>
-      )}
+        {isLogin ? (
+          <LoginForm styles={styles} />
+        ) : (
+          <RegisterForm styles={styles} />
+        )}
+      </div>
     </div>
   );
 };

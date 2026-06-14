@@ -5,12 +5,12 @@ const findUserByEmail = async (email) => {
     return await User.findOne({email});
 }
 
-const findUserByEmailByPassword = async (email) => {
-    return await User.findOne({email}).select("+password");
-}
-
 const findUserById = async (id) => {
     return await User.findById(id);
+}
+
+const findUserByEmailWithPassword = async (email) => {
+    return await User.findOne({email}).select("+password");
 }
 
 const createUser = async (name, email,password) => {
@@ -23,4 +23,4 @@ const getAllUserUrlsDao = async (id) => {
     return await URL.find({user:id});
 }
 
-module.exports = {findUserByEmail,findUserById,createUser,findUserByEmailByPassword,getAllUserUrlsDao};
+module.exports = {findUserByEmail,findUserById,createUser, getAllUserUrlsDao,findUserByEmailWithPassword};

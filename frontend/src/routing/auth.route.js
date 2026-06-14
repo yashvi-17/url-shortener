@@ -1,9 +1,13 @@
-import {createRoute} from "@tanstack/react-router"
-import {rootRoute} from "./routeTree"
-import AuthPage from "../pages/AuthPage"
+import { createRoute, redirect } from "@tanstack/react-router";
+import { rootRoute } from "./routeTree";
 
-export const authRoute =createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/auth",
-    component: AuthPage, //renders authpage
-})
+export const authRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/auth",
+
+  beforeLoad: () => {
+    throw redirect({
+      to: "/login",
+    });
+  },
+});

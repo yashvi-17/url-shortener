@@ -32,7 +32,7 @@ const RegisterForm = ({
         setError("");
 
         try {
-            const data = await RegisterUser(name, email, password);
+            const data = await RegisterUser({name, email, password});
             dispatch(login(data.user));
             navigate({to:"/dashboard"});
 

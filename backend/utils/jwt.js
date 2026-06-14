@@ -1,6 +1,5 @@
 const {cookieOptions} = require("../config/config.js");
 const jsonwebtoken = require("jsonwebtoken");
-const {loginUser} = require("../services/auth.service.js")
 
 const signToken = (payload, secret, exppiressIn) => {
     return jsonwebtoken.sign(payload,process.env.JWT_SECRET,{expiresIn:"1h"});
@@ -9,7 +8,7 @@ const signToken = (payload, secret, exppiressIn) => {
 const verifyToken = (token) => {
     const decoded= jsonwebtoken.verify(token,process.env.JWT_SECRET);
 
-    return decoded.id;
+    return decoded;
 }
 
 module.exports = {signToken,verifyToken};

@@ -1,21 +1,37 @@
-import {createRootRoute} from "@tanstack/react-router"
-import RootLayout from "../RootLayout"
+import { createRootRoute } from "@tanstack/react-router";
+import RootLayout from "../RootLayout";
 
-//Main component inside which all routes will come
 export const rootRoute = createRootRoute({
-    component: RootLayout,
-})
+  component: RootLayout,
+});
 
-import { homepageRoute } from "./homepage"
-import { authRoute } from "./auth.route"
-import { dashboardRoute } from "./dashboard"
+import { homepageRoute } from "./homepage";
+import { authRoute } from "./auth.route";
+import { dashboardRoute } from "./dashboard";
 import { analyticsRoute } from "./analytics.route";
 
+import AuthPage from "../pages/AuthPage";
+import { createRoute } from "@tanstack/react-router";
+
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/login",
+  component: AuthPage,
+});
+
+const registerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/register",
+  component: AuthPage,
+});
+
 const routeTree = rootRoute.addChildren([
-    homepageRoute,
-    authRoute,
-    dashboardRoute,
-    analyticsRoute
-])
+  homepageRoute,
+  authRoute,
+  dashboardRoute,
+  analyticsRoute,
+  loginRoute,
+  registerRoute,
+]);
 
 export default routeTree;

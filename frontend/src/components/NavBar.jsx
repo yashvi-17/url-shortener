@@ -43,8 +43,13 @@ const Navbar = () => {
       <div style={styles.authSection}>
         {!isAuthenticated ? (
           <>
-            <Link to="/auth" style={styles.loginBtn}>Login</Link>
-            <Link to="/auth" style={styles.signupBtn}>Sign Up</Link>
+            <Link to="/login" style={styles.loginBtn}>
+              Login
+            </Link>
+
+            <Link to="/register" style={styles.signupBtn}>
+              Sign Up
+            </Link>
           </>
         ) : (
           <button
