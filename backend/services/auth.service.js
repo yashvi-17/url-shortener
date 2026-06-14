@@ -1,7 +1,7 @@
 const User =require("../models/user.model.js");
 const jsonwebtoken =require("jsonwebtoken");
 const {createUser, findUserByEmail, findUserByEmailWithPassword} = require("../dao/user.dao.js");
-const {ConflictError} = require("../utils/errorHandler.js");
+const {ConflictError} = require("../utils/errorhandler.js");
 const {signToken} = require("../utils/jwt.js");
 const { default: mongoose } = require("mongoose");
 

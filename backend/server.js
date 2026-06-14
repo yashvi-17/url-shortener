@@ -14,6 +14,14 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://your-frontend-domain.vercel.app"
+  ],
+  credentials: true
+}));
+
 //allowing all the ports to connect here
 app.use(cors({
   origin: "http://localhost:5173",
