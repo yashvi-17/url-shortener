@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const axiosInstance=axios.create({
     baseURL: "https://url-shortener-backend-ykh8.onrender.com",
-    timeout:10000,      //10s
+    timeout:60000,      //10s
     withCredentials:true
 })
 axiosInstance.interceptors.response.use(
