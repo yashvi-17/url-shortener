@@ -14,6 +14,11 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log("REQ:", req.method, req.path);
+  next();
+});
+
 //backend deployment
 app.use(cors({
   origin: [
@@ -23,7 +28,8 @@ app.use(cors({
   credentials: true,
    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
-app.options(/.*/, cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 //allowing all the ports to connect here
 
 // IMPORTANT: allows us to read JSON from request body
