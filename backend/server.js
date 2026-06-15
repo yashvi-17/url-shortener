@@ -22,12 +22,7 @@ app.use(cors({
   ],
   credentials: true
 }));
-
 //allowing all the ports to connect here
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true //allows cookies to be sent
-}));
 
 // IMPORTANT: allows us to read JSON from request body
 app.use(express.json()); //body parser
