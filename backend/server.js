@@ -20,8 +20,10 @@ app.use(cors({
     "http://localhost:5173",
     "https://url-shortener-dmqu3yapx-yashvi-dev.vercel.app"
   ],
-  credentials: true
+  credentials: true,
+   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
+app.options(/.*/, cors());
 //allowing all the ports to connect here
 
 // IMPORTANT: allows us to read JSON from request body
