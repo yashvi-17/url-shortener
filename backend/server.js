@@ -29,7 +29,6 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 //allowing all the ports to connect here
 
 // IMPORTANT: allows us to read JSON from request body
