@@ -27,7 +27,7 @@ const LoginForm = ({
         setError("");
 
         try {
-            const data = await loginUser(password,email);
+            const data = await loginUser(email,password);
             dispatch(login(data.user)) //dispatch required whenever accessing functions from slice [wrapper of login]
             navigate({to:"/dashboard"});
             if (onLoginSuccess) {
