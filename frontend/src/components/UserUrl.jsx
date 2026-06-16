@@ -137,7 +137,7 @@ const UserUrl = () => {
                                     }}
                                 >
                                     <span style={styles.short_Url}>
-                                        {`http://localhost:5000/${url.short_Url}`}
+                                        {`https://url-shortener-backend-ykh8.onrender.com/${url.short_Url}`}
                                     </span>
                                 </td>
 
@@ -154,14 +154,14 @@ const UserUrl = () => {
                                     <button
                                         style={styles.copyBtn}
                                         onClick={() =>
-                                            handleCopy(url._id, `http://localhost:5000/${url.short_Url}`)
+                                            handleCopy(url._id, `https://url-shortener-backend-ykh8.onrender.com/${url.short_Url}`)
                                         }
                                     >
                                         {copiedId === url._id ? "Copied!" : "Copy"}
                                     </button>
 
                                     <a
-                                        href={`http://localhost:5000/${url.short_Url}`}
+                                        href={`https://url-shortener-backend-ykh8.onrender.com/${url.short_Url}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         style={styles.visitBtn}
