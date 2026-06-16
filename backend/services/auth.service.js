@@ -19,13 +19,10 @@ const registerUser = async (name,email,password) => {
 }
 
 const loginUser = async (email,password) => {
-    console.log("Login email:", email);
     const user=await findUserByEmailWithPassword(email);
-    console.log("User found:", !!user);
     if(!user) throw new Error("Invalid Credentials!"); //we want to secure the info of which emails exist and which do not by not throwing 2 different errors for wrong email and password
     
     const isPasswordValid = await user.comparePassword(password);
-    console.log("Password valid:", isPasswordValid);
     if(!isPasswordValid) throw new Error("Invalid Credentials!")
     
     const token = await signToken({id: user._id});

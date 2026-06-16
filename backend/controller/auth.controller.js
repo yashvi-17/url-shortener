@@ -14,7 +14,6 @@ const register = wrapAsync( async (req,res) => {
 })
 
 const login = wrapAsync( async (req,res) => {
-    console.log("LOGIN REQ BODY:", req.body)
     const {email,password} = req.body;
     const {token,user} = await loginUser(email,password);
     req.user=user;

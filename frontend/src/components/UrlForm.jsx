@@ -7,7 +7,7 @@ const UrlForm = ({
   error,
   styles
 }) => {
-  const [url, setUrl] = useState("https://www.google.com");
+  const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
   const [apiError, setApiError] = useState("");
