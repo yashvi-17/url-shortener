@@ -12,7 +12,7 @@ const createShortUrl = wrapAsync(async(req,res,next)=>{
         shortUrl = await createShortUrlWithoutUser(data.url);
     }
     //res.status(403).send("Not Allowed");
-    res.status(200).json({shortUrl:`${process.env.APP_URL}/${shortUrl}`});
+    res.status(200).json({shortUrl:`${process.env.VITE_APP_URL}/${shortUrl}`});
 })
 
 const redirectFromShortUrl = wrapAsync(async (req,res) =>{
@@ -29,7 +29,7 @@ const redirectFromShortUrl = wrapAsync(async (req,res) =>{
 const createCustomShortUrl = wrapAsync(async (req,res) =>{
     const {url,slug}=req.body;
     const shortUrl=await createShortUrlWithoutUser(url,slug);
-    res.status(200).json({shortUrl: process.env.APP_URL + shortUrl});
+    res.status(200).json({shortUrl: process.env.VITE_APP_URL + shortUrl});
 })
 
 module.exports = {createShortUrl,redirectFromShortUrl,createCustomShortUrl};
