@@ -69,20 +69,32 @@ const LoginForm = ({
             </button>
 
             {/* switch to register */}
-            <p style={{ textAlign: "center", marginTop: "10px" }}>
-                Don’t have an account?{" "}
-                <span
+            <div
+                style={{
+                    textAlign: "center",
+                    marginTop: "15px",
+                }}
+            >
+                <p>
+                    Don't have an account?
+                </p>
+
+                <button
+                    type="button"
                     onClick={onSwitchToRegister}
                     style={{
+                        background: "none",
+                        border: "none",
                         color: "#2563eb",
                         cursor: "pointer",
-                        textDecoration: "underline"
+                        textDecoration: "underline",
+                        padding: 0,
+                        fontSize: "inherit",
                     }}
                 >
                     Register
-                </span>
-            </p>
-
+                </button>
+            </div>
         </form>
     );
 };
