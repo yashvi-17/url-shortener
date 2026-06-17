@@ -1,35 +1,34 @@
 import React, { useState } from "react";
 import { loginUser } from "../api/user.api";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../store/slice/authSlice";
 import { useNavigate } from "@tanstack/react-router";
 
-const LoginForm = ({
-    styles
-}) => {
+const LoginForm = ({ styles }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
- 
+
         setLoading(true);
         setError("");
 
         try {
-            const data = await loginUser(email,password);
-            dispatch(login(data.user)) //dispatch required whenever accessing functions from slice [wrapper of login]
-            navigate({to:"/dashboard"});
+            const data = await loginUser(email, password);
+
+            dispatch(login(data.user));
+            navigate({ to: "/dashboard" });
+
             console.log("successful login!");
         } catch (err) {
             setError(
-                err.message ||
-                "Login failed. Please check your credentials."
+                err.message || "Login failed. Please check your credentials."
             );
         } finally {
             setLoading(false);
@@ -38,26 +37,35 @@ const LoginForm = ({
 
     return (
         <form onSubmit={handleSubmit}>
+            <h2 style={{ marginBottom: "20px" }}>Login</h2>
 
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                style={styles.input}
-                required
-            />
+            <div style={styles.inputGroup}>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    style={styles.input}
+                    required
+                />
+            </div>
 
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                style={styles.input}
-                required
-            />
+            <div style={styles.inputGroup}>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    style={styles.input}
+                    required
+                />
+            </div>
 
-            {error && <div style={styles.errorMessage}>{error}</div>}
+            {error && (
+                <div style={styles.errorMessage}>
+                    {error}
+                </div>
+            )}
 
             <button
                 type="submit"
@@ -72,11 +80,10 @@ const LoginForm = ({
                 style={{
                     textAlign: "center",
                     marginTop: "15px",
+                    fontSize: "0.9rem"
                 }}
             >
-                <p>
-                    Don't have an account?
-                </p>
+                <p>Don't have an account?</p>
 
                 <button
                     type="button"
