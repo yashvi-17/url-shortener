@@ -5,7 +5,6 @@ import { login } from "../store/slice/authSlice";
 import { useNavigate } from "@tanstack/react-router";
 
 const LoginForm = ({
-    onSwitchToRegister,
     styles
 }) => {
     const [email, setEmail] = useState("");
@@ -81,7 +80,7 @@ const LoginForm = ({
 
                 <button
                     type="button"
-                    onClick={onSwitchToRegister}
+                    onClick={() => navigate({ to: "/register" })}
                     style={{
                         background: "none",
                         border: "none",

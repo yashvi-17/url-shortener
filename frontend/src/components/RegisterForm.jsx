@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../store/slice/authSlice";
 import { useNavigate } from "@tanstack/react-router";
 
-const RegisterForm = ({ onSwitchToLogin, styles }) => {
+const RegisterForm = ({  styles }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -95,7 +95,7 @@ const RegisterForm = ({ onSwitchToLogin, styles }) => {
 
             <button
                 type="button"
-                onClick={onSwitchToLogin}
+                onClick={() => navigate({ to: "/login" })}
                 style={{
                     background: "none",
                     border: "none",
