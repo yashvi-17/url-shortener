@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { getAllUserUrls } from "../api/user.api";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 const UserUrl = () => {
+    const {initialized,user} = useSelector(
+        (state)=>state.auth
+    );
     const {
         data: urls = [],
         isLoading,
@@ -11,9 +15,15 @@ const UserUrl = () => {
     } = useQuery({
         queryKey: ["userUrls"],
         queryFn: getAllUserUrls,
+        enabled: initialized && !!user,
         refetchInterval: 30000,
         staleTime: 0,
     });
+
+    if (!initialized) {
+        return <div>Loading authentication...</div>;
+    }
+
     console.log("api data",urls);
     const [copiedId, setCopiedId] = useState(null);
 

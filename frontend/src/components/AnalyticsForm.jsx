@@ -2,14 +2,24 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllUserUrls } from "../api/user.api";
 import { styles } from "../styles";
+import { useSelector } from "react-redux";
 
 const AnalyticsForm = () => {
+  const { initialized, user } = useSelector(
+    (state) => state.auth
+  );
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["userUrls"],
     queryFn: getAllUserUrls,
+    enabled: initialized && !!user,
     refetchInterval: 30000,
     staleTime: 0,
   });
+
+  if (!initialized) {
+    return <div>Loading authentication...</div>;
+  }
 
   const urls = data?.urls || [];
 
