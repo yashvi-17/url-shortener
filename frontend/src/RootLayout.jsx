@@ -6,6 +6,10 @@ import NavBar from "./components/NavBar";
 import AuthPage from './pages/AuthPage';
 import { Outlet } from "@tanstack/react-router";
 import {styles} from "./styles.js";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login, logout } from "./store/slice/authSlice";
+import { getCurrentUser } from "./api/user.api";
 
 const RootLayout = () => {
   const [urlInput, setUrlInput] = useState('');
@@ -13,6 +17,7 @@ const RootLayout = () => {
   const [showResult, setShowResult] = useState(false);
   const [error, setError] = useState('');
   const [copyMessage, setCopyMessage] = useState('');
+  const dispatch = useDispatch();
 
   const generateShortUrl = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -37,170 +42,18 @@ const RootLayout = () => {
     setCopyMessage('');
   };
 
-  // const styles = {
-  //   container: {
-  //     width: '100%',
-  //     minHeight: '100vh',
-  //     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  //     display: 'flex',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     padding: '20px',
-  //     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  //   },
-  //   card: {
-  //     background: 'white',
-  //     borderRadius: '12px',
-  //     padding: '40px 30px',
-  //     boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-  //     width: '100%',
-  //     maxWidth: '600px',
-  //   },
-  //   title: {
-  //     color: '#333',
-  //     fontSize: '2.5rem',
-  //     marginBottom: '10px',
-  //     textAlign: 'center',
-  //     margin: '0 0 10px 0',
-  //   },
-  //   subtitle: {
-  //     color: '#666',
-  //     fontSize: '1rem',
-  //     textAlign: 'center',
-  //     marginBottom: '30px',
-  //   },
-  //   inputGroup: {
-  //     display: 'flex',
-  //     gap: '10px',
-  //     marginBottom: '15px',
-  //     flexWrap: 'wrap',
-  //   },
-  //   input: {
-  //     flex: 1,
-  //     minWidth: '200px',
-  //     padding: '12px 16px',
-  //     border: '2px solid #e0e0e0',
-  //     borderRadius: '8px',
-  //     fontSize: '1rem',
-  //     transition: 'border-color 0.3s ease',
-  //   },
-  //   button: {
-  //     padding: '12px 28px',
-  //     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  //     color: 'white',
-  //     border: 'none',
-  //     borderRadius: '8px',
-  //     fontSize: '1rem',
-  //     fontWeight: '600',
-  //     cursor: 'pointer',
-  //     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-  //     whiteSpace: 'nowrap',
-  //   },
-  //   logoutButton: {
-  //     padding: '10px 20px',
-  //     background: '#e74c3c',
-  //     color: 'white',
-  //     border: 'none',
-  //     borderRadius: '8px',
-  //     fontSize: '0.9rem',
-  //     fontWeight: '600',
-  //     cursor: 'pointer',
-  //     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-  //   },
-  //   errorMessage: {
-  //     color: '#e74c3c',
-  //     fontSize: '0.9rem',
-  //     marginTop: '8px',
-  //     padding: '10px',
-  //     backgroundColor: '#fadbd8',
-  //     borderRadius: '6px',
-  //     borderLeft: '4px solid #e74c3c',
-  //   },
-  //   resultSection: {
-  //     animation: 'slideIn 0.3s ease',
-  //   },
-  //   resultCard: {
-  //     background: '#f8f9fa',
-  //     border: '2px solid #667eea',
-  //     borderRadius: '8px',
-  //     padding: '20px',
-  //     marginBottom: '20px',
-  //     marginTop: '20px',
-  //   },
-  //   resultTitle: {
-  //     color: '#333',
-  //     marginBottom: '15px',
-  //     fontSize: '1.2rem',
-  //     margin: '0 0 15px 0',
-  //   },
-  //   resultDisplay: {
-  //     display: 'flex',
-  //     gap: '10px',
-  //     marginBottom: '15px',
-  //     flexWrap: 'wrap',
-  //   },
-  //   shortUrlInput: {
-  //     flex: 1,
-  //     minWidth: '200px',
-  //     padding: '12px 16px',
-  //     border: '2px solid #e0e0e0',
-  //     borderRadius: '8px',
-  //     fontSize: '1rem',
-  //     background: 'white',
-  //     color: '#333',
-  //     fontWeight: '500',
-  //   },
-  //   copyButton: {
-  //     padding: '12px 24px',
-  //     background: '#27ae60',
-  //     color: 'white',
-  //     border: 'none',
-  //     borderRadius: '8px',
-  //     fontSize: '1rem',
-  //     fontWeight: '600',
-  //     cursor: 'pointer',
-  //     whiteSpace: 'nowrap',
-  //   },
-  //   copyMessage: {
-  //     color: '#27ae60',
-  //     fontSize: '0.9rem',
-  //     padding: '10px',
-  //     backgroundColor: '#d5f4e6',
-  //     borderRadius: '6px',
-  //     borderLeft: '4px solid #27ae60',
-  //     textAlign: 'center',
-  //     marginTop: '10px',
-  //   },
-  //   resetButton: {
-  //     width: '100%',
-  //     padding: '12px',
-  //     background: '#95a5a6',
-  //     color: 'white',
-  //     border: 'none',
-  //     borderRadius: '8px',
-  //     fontSize: '1rem',
-  //     fontWeight: '600',
-  //     cursor: 'pointer',
-  //     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-  //   },
-  //   header: {
-  //     display: 'flex',
-  //     justifyContent: 'space-between',
-  //     alignItems: 'center',
-  //     marginBottom: '20px',
-  //     paddingBottom: '20px',
-  //     borderBottom: '2px solid #f0f0f0',
-  //   },
-  //   userInfo: {
-  //     textAlign: 'right',
-  //     color: '#333',
-  //   },
-  //   userName: {
-  //     fontSize: '1rem',
-  //     fontWeight: '600',
-  //     marginBottom: '5px',
-  //   },
-  // };
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const data = await getCurrentUser();
+        dispatch(login(data.user));
+      } catch (err) {
+        dispatch(logout());
+      }
+    };
+
+    checkAuth();
+  }, [dispatch]);
 
   return (
     <>
