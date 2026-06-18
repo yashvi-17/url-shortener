@@ -12,7 +12,7 @@ export const dashboardRoute = createRoute({
     const state = store.getState();
     const { user, loading } = state.auth;
 
-    if (loading) return;
+    if (loading || !store.getState().auth) return;
 
     if (!user) {
       throw redirect({ to: "/login" });

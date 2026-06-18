@@ -1,8 +1,8 @@
 
 const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Lax",
+    secure: true, //force true
+    sameSite: "none", //required cross site cookies
     maxAge: 1000*60*60, //5mins
 };
 
