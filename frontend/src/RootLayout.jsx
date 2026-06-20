@@ -45,9 +45,12 @@ const RootLayout = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        console.log("Checking auth...");
         const data = await getCurrentUser();
+        console.log("ME RESPONSE:", data);
         dispatch(login(data.user));
       } catch (err) {
+        console.log("AUTH FAILED:", err);
         dispatch(logout());
       }
     };

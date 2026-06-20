@@ -9,7 +9,8 @@ const register = wrapAsync( async (req,res) => {
     res.cookie("accessToken",token,cookieOptions);
     res.status(200).json({
         message: "Register Success",
-        token
+        token,
+        user
     });
 })
 
